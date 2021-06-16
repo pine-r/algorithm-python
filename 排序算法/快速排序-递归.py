@@ -4,20 +4,25 @@
 """
 
 
-def quick_sort(start_index, end_index, array=[]):
+def quick_sort(start_index, end_index, array=None):
     # 递归结束条件：start_index大等于end_index的时候
+    if array is None:
+        array = []
     if start_index >= end_index:
         return
     # 得到基准元素的位置
-    pivot_index = partition_v1(start_index, end_index, array)
+    # pivot_index = partition_v1(start_index, end_index, array)
+    pivot_index = partition_v2(start_index, end_index, array)
     # 根据基准元素，分成两部分递归排序
     quick_sort(start_index, pivot_index - 1, array)
     quick_sort(pivot_index + 1, end_index, array)
 
 
-def partition_v1(star_index, end_index, array=[]):
+def partition_v1(star_index, end_index, array=None):
     # 双边循环法
     # 取第一个位置的元素作为基准元素
+    if array is None:
+        array = []
     pivot = array[star_index]
     left = star_index
     right = end_index
@@ -37,6 +42,23 @@ def partition_v1(star_index, end_index, array=[]):
     array[star_index] = array[left]
     array[left] = pivot
     return left
+
+
+def partition_v2(start_index, end_index, array=None):
+    # 单边循环法，取第一个位置的元素作为基准元素（也可以选择随机位置）
+    if array is None:
+        array = []
+    pivot = array[start_index]
+    mark = start_index
+    for i in range(start_index + 1, end_index + 1):
+        if array[i] < pivot:
+            mark += 1
+            p = array[mark]
+            array[mark] = array[i]
+            array[i] = p
+    array[start_index] = array[mark]
+    array[mark] = pivot
+    return mark
 
 
 if __name__ == "__main__":
